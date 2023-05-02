@@ -14,6 +14,9 @@ function App() {
   const {showdetail,addNode} = useIntent();
   const {showChat} = useApp(); 
   const [code, setCode] = useState("") 
+  React.useEffect(()=>{
+    console.log("new feature")
+  },[])
   return (
     <div className="App"
     onClick={(e)=>{
