@@ -1,7 +1,6 @@
 import { useCallback } from 'react';
 import { Handle, Position } from 'reactflow';
-import "./Node.css"
-import { useIntent } from '../contexts/IntentContext';
+import "./IntentNode.css"
 
 const startColor = {backgroundColor:'#c2410c'}
 const startBorder = {borderColor:'#c2410c'}

@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useRef } from 'react';
   import ReactFlow, {
     Controls, 
     Background,
@@ -10,14 +10,12 @@ import React, { useCallback, useRef, useState } from 'react';
     ReactFlowProvider,
   } from 'reactflow';
 import 'reactflow/dist/style.css';
-import TextUpdaterNode from './TextUpdaterNode';
-import IntentNode from './IntentNode';
-import { useIntent } from '../contexts/IntentContext';
-import "./Drag.css"
-import useLocalStorage from '../contexts/useLocalStorage';
+import IntentNode from '../IntentNode/IntentNode';
+import { useIntent } from '../../contexts/IntentContext';
+import "./Flow.css"
 
 
-const nodeTypes = { textUpdater:TextUpdaterNode,intentNode:IntentNode };
+const nodeTypes = {intentNode:IntentNode };
 
 
 

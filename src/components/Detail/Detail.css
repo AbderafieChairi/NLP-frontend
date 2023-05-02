@@ -1,0 +1,79 @@
+.intent-d{
+    position: fixed;
+    top: 0px;
+    bottom: 0px;
+    right: 0px;
+    width: 400px;
+    background-color: white;
+    overflow-y: scroll;
+    padding-bottom: 50px;
+  }
+  .intent-dash{
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    z-index: 10;
+  }
+  .intent-dash button{
+    margin: 5px;
+  }
+  .intent-dash button{
+    padding: 7px 13px;
+    border: none;
+    background-color: #61dafb; 
+    text-align: left;
+  }
+  .intent-dash button:hover{
+    cursor: pointer;
+  }
+  
+  
+  
+  .input-list{
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    margin: 10px 30px;
+    border-top: solid 1px gray;
+    gap: 0px;
+  }
+  .name-inp,
+  .messages{
+    margin: 0px;
+    padding:13px;
+    border: solid 1px gray;
+    border-top: 0px;
+    font-size: 14px;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  .subtitle{
+    text-align: left;
+    margin-left: 10px;
+  }
+  .messages:focus
+  {
+    outline: none;
+    border: solid 1px gray;
+    border-top: 0px;
+    border-left: solid 5px #61dafb;
+  }
+  .detail-h{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 10px;
+  }
+  .detail-h button{
+    border: none;
+    padding: 7px 13px;
+    background-color: #282c34;
+    color: white;
+  }
+  button:hover{
+    user-select: none;
+    cursor: pointer;
+  }
+  
+  

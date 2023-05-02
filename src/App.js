@@ -1,16 +1,13 @@
 import React, { useState } from 'react';
 import './App.css';
-import Flow from './Drag/Drag';
+import Flow from './components/Flow/Flow';
 import { useIntent } from './contexts/IntentContext';
-import Detail from './Detail';
-import {db} from './config/firebase'
-import { collection, getDocs } from 'firebase/firestore';
 import { useApp } from './contexts/AppContext';
 import Chat from './components/Chat/Chat';
-import {UnControlled as CodeMirror} from 'react-codemirror2'
-import Editor from './Editor';
-import Entity from './components/entities/Entity';
+import Detail from './components/Detail/Detail';
 function App() {
+
+
   const {showdetail,addNode} = useIntent();
   const {showChat} = useApp(); 
   const [code, setCode] = useState("") 
@@ -24,7 +21,6 @@ function App() {
       {showdetail.showdetail&&<Detail/>}
       <Dash/>
       {showChat&&<Chat/>}
-      {/* <Entity/> */}
 
 
     </div>

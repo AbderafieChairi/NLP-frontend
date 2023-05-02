@@ -1,0 +1,97 @@
+.pattern-list{
+    position: relative;
+    padding: 7px;
+    margin: 20px;
+}
+
+.pattern-add{
+    --size : 25px;
+    position: absolute;
+    
+    right: 7px;
+    height: var(--size);
+    width: calc(2*var(--size));
+    bottom:calc(-1* var(--size));
+    background-color: #d0cece;;
+    border-radius: 0px 0px 5px 5px ;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.pattern-add > div{
+    position: relative;
+    top: -3px;
+    font-size: 18px;
+}
+
+.pattern-add:hover{
+    user-select: none;
+    cursor: pointer;
+}
+
+
+.pattern-item{
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 5px;
+    padding: 10px;
+}
+
+.select{
+    padding: 5px;
+}
+.select:hover,
+.select:focus{
+    outline: transparent;
+    cursor: pointer;
+}
+
+.word-list{
+    display: flex;
+    flex-direction: column;
+
+}
+.inp:focus{
+    outline: transparent;
+}
+.prebuild-container,
+.regex-container,
+.word-list-conatiner{
+    padding: 10px;
+}
+.prebuild-header,
+.regex-header,
+.word-list-header{
+    margin: 7px;
+}
+
+.btns-container{
+    display: flex;
+    flex-direction: row;
+    justify-content:flex-end;
+    gap: 3px;
+}
+.btns-container >div{
+    padding: 7px 13px;
+    background-color: black;
+    color: white;
+}
+.btns-container > div:hover{
+    cursor: pointer;
+    user-select: none;
+}
+.varname-saved{
+    display: flex;
+    flex-direction: row;
+    padding: 7px 20px;
+    justify-content: space-between;
+    align-items: center;
+}
+.varname-edit{
+    color: rgb(48, 84, 107);
+}
+.varname-edit:hover{
+    text-decoration: underline;
+    cursor: pointer;
+    user-select: none;
+}

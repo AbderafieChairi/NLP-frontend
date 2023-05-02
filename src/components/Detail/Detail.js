@@ -1,15 +1,14 @@
 import React, { useRef, useState } from 'react';
-import './App.css';
-import { useIntent } from './contexts/IntentContext';
-import "./App.css"
-import TrainingPhrase from './TrainingPhrase';
-import {UnControlled as CodeMirror} from 'react-codemirror2'
-import Editor from './Editor';
+// import '../../App.css';
+import "./Detail.css"
+import { useIntent } from '../../contexts/IntentContext';
+import Entity from '../Entity/Entity';
+import Editor from '../Editor/Editor';
 export default function Detail() {
         const [name, setname] = useState("")
         const [messages, setmessages] = useState([])
         const [responses, setResponses] = useState([])
-        const [entities, setEntities] = useState([])
+        const [entities, setEntities] = useState([]) 
         const [code, setCode] = useState("")
         // const [payload, setPayload] = useState("")
         const {nodes,showdetail,updateNode,setShowdetail} = useIntent()
@@ -43,7 +42,7 @@ export default function Detail() {
             <h2 className='subtitle'>Responses</h2>
             <ListMessages value={responses} setValue={setResponses}/>    
             <h2 className='subtitle'>Entities</h2>
-            <ListMessages value={entities} setValue={setEntities}/>    
+            <Entity/> 
             <h2 className='subtitle'>Code</h2>
             <div className='test'>
             <Editor
@@ -78,39 +77,6 @@ function ListMessages({value,setValue}){
                 return k===index?e.target.value:i
               }))
             }}/>
-        )
-      })}
-    </div>
-  )
-}
-
-const vInit=[""]
-function ListTrainingPhrases({value,setValue}){
-  const [v, setV] = useState(vInit)
-
-  return(
-    <div className='input-list' >
-      <TrainingPhrase type='text'  value={v} 
-      setValue={c=>{
-        setV(c)
-      }} onKeyDown={e=>{
-        if(e.key === 'Enter'){
-          setValue([...value,v])
-          setV(vInit)
-        }
-      }}/>
-      {value.map((item,index)=>{
-        return(
-            <div key={index}>
-            <TrainingPhrase  value={item} 
-            setValue={
-              v=>{
-              setValue(value.map((i,k)=>{
-                return k===index?v(item):i
-              }))
-            }
-          }/>
-          </div>
         )
       })}
     </div>
