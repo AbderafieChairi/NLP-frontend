@@ -1,0 +1,43 @@
+
+.entities-container{
+    position: fixed;
+    top: 100px;
+    left: 100px;
+    right: 100px;
+    bottom: 100px;
+    display: flex;
+    background-color: white;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    z-index: 50;
+    box-shadow: 2px 2px 5px #999;
+}
+.entities-list{
+    height: 100%;
+    width: 150px;
+    background-color: aliceblue;
+}
+.entities-main{
+    flex: 1;
+}
+
+.entity-name{
+    padding: 10px;
+    border-bottom: solid 1px #999;
+}
+.entity-name:hover{
+    cursor: pointer;
+    user-select: none;
+    background-color: #aaa;
+}
+
+.entities-list-header{
+    padding: 10px;
+    margin: 10px auto;
+}
+.entity-name-add:hover{
+    background-color: aliceblue;
+    text-decoration: wavy;
+    color: rgb(97, 115, 132);
+}
