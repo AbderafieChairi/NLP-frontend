@@ -1,0 +1,12 @@
+.switch-value {
+    color: white;
+    position: relative;
+    top: -21px;
+    right: 30px;
+}
+
+.SwitchNode{
+    width: 75px;
+    background-color: #1f2937;
+    border: solid 1px #00d3f2;
+}

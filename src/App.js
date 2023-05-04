@@ -5,12 +5,12 @@ import { useIntent } from './contexts/IntentContext';
 import { useApp } from './contexts/AppContext';
 import Chat from './components/Chat/Chat';
 import Detail from './components/Detail/Detail';
+import SwitchDetail from './components/SwitchDetail/SwitchDetail';
 function App() {
 
 
-  const {showdetail,addNode} = useIntent();
+  const {showdetail,addNode,showSwitch} = useIntent();
   const {showChat} = useApp(); 
-  const [code, setCode] = useState("") 
   return (
     <div className="App"
     onClick={(e)=>{
@@ -19,6 +19,7 @@ function App() {
     >
       <Flow />
       {showdetail.showdetail&&<Detail/>}
+      {showSwitch.showdetail&&<SwitchDetail/>}
       <Dash/>
       {showChat&&<Chat/>}
 
@@ -31,17 +32,16 @@ export default App;
 
 
 export function Dash(){
-  const {addNode,menuPosition,initNodes} = useIntent()
+  const {edges,addNode,menuPosition,initNodes,nodes,bankIntent} = useIntent()
   const {setShowChat} =  useApp()
   return (
     <div className='intent-dash' style={{top:menuPosition.y,left:menuPosition.x}}>
       <button onClick={(e)=>{
-        e.preventDefault();
-        // addNode(e.clientX,e.clientY)
-      }}>add Intent</button>
+        console.log(edges)
+      }}>Edges</button>
       <button onClick={()=>initNodes()}>clear</button>
       <button onClick={()=>setShowChat(e=>!e)}>chat</button>
-      <button >entities</button>
+      <button onClick={e=>console.log(nodes)}>nodes</button>
     </div>
   )
 }

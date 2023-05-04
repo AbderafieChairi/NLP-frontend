@@ -8,13 +8,12 @@ export default function Detail() {
         const [name, setname] = useState("")
         const [messages, setmessages] = useState([])
         const [responses, setResponses] = useState([])
-        const [entities, setEntities] = useState([]) 
+        const [entity, setEntity] = useState([]) 
         const [code, setCode] = useState("")
-        // const [payload, setPayload] = useState("")
         const {nodes,showdetail,updateNode,setShowdetail} = useIntent()
       
         const save=()=>{
-          updateNode(showdetail.id,{name,messages,responses,entities,code})
+          updateNode(showdetail.id,{name,messages,responses,entity,code})
           setShowdetail({id:0,showdetail:0})
         }
         React.useEffect(()=>{
@@ -22,11 +21,10 @@ export default function Detail() {
             setname(nodes.find(i=>i.id===showdetail.id).data.name)
             setmessages(nodes.find(i=>i.id===showdetail.id).data.messages)
             setResponses(nodes.find(i=>i.id===showdetail.id).data.responses)
-            setEntities(nodes.find(i=>i.id===showdetail.id).data.entities)
+            setEntity(nodes.find(i=>i.id===showdetail.id).data.entity)
             setCode(nodes.find(i=>i.id===showdetail.id).data.code)
           }
         },[])
-
         return (
         <div className='intent-d'>
             <div className='detail-h'>
@@ -42,7 +40,7 @@ export default function Detail() {
             <h2 className='subtitle'>Responses</h2>
             <ListMessages value={responses} setValue={setResponses}/>    
             <h2 className='subtitle'>Entities</h2>
-            <Entity/> 
+            <Entity entity={entity} setEntity={setEntity}/> 
             <h2 className='subtitle'>Code</h2>
             <div className='test'>
             <Editor

@@ -6,30 +6,63 @@ const prebuildList={
   "NUM":"Numeric",
   "ADJ":"Adjectif"
 }
-
-function Entity() {
+const notNull=(a,b)=>{
+  if (a) return a;
+  return b
+  // return a
+}
+function Entity({entity,setEntity}) {
 //   const [inp, setInp] = useState("do you have a phone ?")
-  const [varName, setVarName] = useState("")//this
-  const [pattern, setPattern] = useState('word-list')//this
+  const [varName, setVarName] = useState('')//this
+  const [pattern, setPattern] = useState('prebuild')//this
   const [wordList, setWordList] = useState(["",""])//this
   const [regex, setRegex] = useState('')//this
   const [prebuild, setPrebuild] = useState('NOUN')//this
+  const [required, setRequired] = useState(false)//this
   const [output, setOutput] = useState([])//this
   const [saved, setSaved] = useState(false)
+  const [value, setValue] = useState("")
   const onChange=(key,value)=>{
     const u = wordList.map((item,k)=>k===key?value:item)
     if (u?.at(-1)!=="")
     u.push('')
     setWordList(u)
   }
+  React.useEffect(()=>{
+    setVarName(notNull(entity.varName,''))
+    setPattern(notNull(entity.pattern,'prebuild'))
+    setWordList(notNull(entity.wordList,["",""]))
+    setRegex(notNull(entity.regex,''))
+    setPrebuild(notNull(entity.prebuild,'NOUN'))
+    setOutput(notNull(entity.output,[]))
+    setSaved(notNull(entity.saved,true))
+    setRequired(notNull(entity.required,true))
+    setValue(notNull(entity.value,''))
+  },[entity])
+
   const save=()=>{
+    var o=[]
     if (pattern==='word-list')
-    setOutput([{"LEMMA": {"IN": wordList.slice(0,-1)}}])
+    o=[{"LEMMA": {"IN": wordList.slice(0,-1)}}]
     else if (pattern==='regex')
-    setOutput([{"TEXT": {"REGEX": regex}}])
+    // setOutput([{"TEXT": {"REGEX": regex}}])
+    o=[{"TEXT": {"REGEX": regex}}]
     else if (pattern==='prebuild')
-    setOutput([{"POS": prebuild}])
+    // setOutput([{"POS": prebuild}])
+    o=[{"POS": prebuild}]
+    setOutput(o)
     setSaved(true)
+    const out = {
+      varName:varName,
+      pattern:pattern,
+      wordList:wordList,
+      regex:regex,
+      prebuild:prebuild,
+      output:o,
+      required:required,
+      value:value
+    }
+    setEntity(out)
   }
 
 //   const send=()=>{
@@ -49,7 +82,6 @@ function Entity() {
 //   }
 
 
-  React.useEffect(()=>console.log(output),[output])
 
 
   return (
@@ -59,6 +91,13 @@ function Entity() {
         <div className='pattern-item'>
           <div>var name</div>
           <input value={varName} onChange={(e) => setVarName(e.target.value)} />
+          <div>required ?</div>
+          <input type='checkbox' checked={required} onChange={()=>{}} onClick={(e) => {
+            setRequired(r=>{
+              console.log(!r)
+              return !r
+            })
+          }} />
           <div>Pattern</div>
           <select value={pattern} onChange={(e) => setPattern(e.target.value)} className='select'>
             <option value="word-list">Word list</option>
@@ -111,7 +150,7 @@ function Entity() {
           <div onClick={save}>save</div>
         </div>
       </div>
-      {/* <button onClick={send}>Send</button> */}
+      <button onClick={()=>console.log(entity)}>Send</button>
     </div>:
     <div className='varname-saved'>
         <div>{varName}</div>

@@ -3,3 +3,17 @@
     width: 100%;
     background-color: #111827;
 }
+.flow-menu{
+    position: fixed;
+    min-width: 100px;
+    background-color: white;
+    z-index: 999;
+}
+
+.flow-menu > div{
+    padding: 7px;
+}
+.flow-menu >div:hover{
+    cursor: pointer;
+    user-select: none;
+}
