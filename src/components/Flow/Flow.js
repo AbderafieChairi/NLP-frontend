@@ -11,25 +11,22 @@ import React, { useCallback, useRef, useState } from 'react';
   } from 'reactflow';
 import 'reactflow/dist/style.css';
 import IntentNode from '../nodes/IntentNode/IntentNode';
-import { useIntent } from '../../contexts/IntentContext';
+// import { useIntent } from '../../contexts/IntentContext';
 import "./Flow.css"
-import BankNode, { BankNodeOut } from '../nodes/BankNode/BankNode';
-import SwitchNode from '../nodes/SwitchNode/SwitchNode';
+import { useFlow } from '../../contexts/FlowContext';
+import RefNode from '../nodes/RefNode/RefNode';
 
 
 const nodeTypes = {
     intentNode:IntentNode,
-    bankIntent:BankNode,
-    bankIntentOut:BankNodeOut,
-    switchNode:SwitchNode 
-  
+    refNode:RefNode  
   };
 
 
 
 
 function Flow() {
-  const {nodes, setNodes,edges, setEdges,showdetail, setShowdetail,setId,setShowSwitch} = useIntent();
+  const {nodes, setNodes,edges, setEdges,showDetail, setShowdetail,setId,setShowSwitch,addNode} = useFlow();
   const [menu, setMenu] = useState(false)
   const [menuPos, setMenuPos] = useState({x:0,y:0})
   const [bankPos, setBankPos] = useState({x:0,y:0})
@@ -55,12 +52,13 @@ function Flow() {
 
   }, []);
   const addIntent=(position)=>{
-    var id = "0"
-    setId(i=>{
-      id= `${i+1}`
-      setNodes(nodes=>[...nodes,{id:id,type:'intentNode',position:position,data:{displayName:id,id:id,start:false}}])
-      return id
-    })
+    const id = addNode(position,'intentNode')
+    // var id = "0"
+    // setId(i=>{
+    //   id= `${i+1}`
+    //   setNodes(nodes=>[...nodes,{id:id,type:'intentNode',position:position,data:{displayName:id,id:id,start:false}}])
+    //   return id
+    // })
     return id
   }
 
@@ -93,10 +91,9 @@ function Flow() {
   const onConnectEnd = useCallback(
     (event) => {
       const targetIsPane = event.target.classList.contains('react-flow__pane');
-      console.log(connectingNodeId.current.handleId)
       if (targetIsPane && connectingNodeId.current.handleId==="b") {
         const { top, left } = reactFlowWrapper.current.getBoundingClientRect();
-        setId(i=>{
+        // setId(i=>{
           const id_ = addIntent( project({ x: event.clientX - left , y: event.clientY - top- 45 }) )
           setEdges((eds) => eds.concat({ 
             id: id_, 
@@ -105,8 +102,8 @@ function Flow() {
             target: id_ ,
             targetHandle: 'a',
           }));
-          return i+1
-        });
+          // return i+1
+        // });
       }
       if (targetIsPane && connectingNodeId.current.handleId==="c"){
         const { top, left } = reactFlowWrapper.current.getBoundingClientRect();
@@ -144,9 +141,10 @@ function Flow() {
 
   const onNodeClick=(e,node)=>{
     if (node.type==="intentNode")
-    setShowdetail({id:node.id,showdetail:!showdetail.showdetail});
-    else if (node.type==="switchNode")
-    setShowSwitch({id:node.id,showdetail:!showdetail.showdetail});
+    showDetail(node.id)
+    // setShowdetail({id:node.id,showdetail:!showdetail.showdetail});
+    // else if (node.type==="switchNode")
+    // setShowSwitch({id:node.id,showdetail:!showdetail.showdetail});
   }
   const onEdgeClick=(e,edge)=>{
     setEdges(edges=>edges.filter(i=>i.id!==edge.id));

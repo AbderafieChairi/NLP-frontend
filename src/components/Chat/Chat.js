@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
+import React from 'react'
 import "./Chat.css"
-import { useIntent } from '../../contexts/IntentContext';
 import Typewriter from 'typewriter-effect';
+import { useChat } from '../../contexts/ChatContext';
 export default function Chat() {
-  const {usermsg, setUsermsg,ask,msgs,loading,addMsg,clearChat} = useIntent()
+  const {usermsg, setUsermsg,ask,msgs,loading,addMsg,clearChat} = useChat()
 
   return (
     <div className='chat-container'>
@@ -12,7 +12,8 @@ export default function Chat() {
           {msgs.map((item,index)=>{
             return <div key={index} className={item.src==="bot"?'chat-msg':'user-msg'}>
               <div className='msg' style={item.src==="bot"?{backgroundColor:"#eaf8fa"}:{backgroundColor:"#f9e4db"}}>
-                {index!==msgs.length-1?
+                {item.msg}
+                {/* {index!==msgs.length-1?
                   item.msg:
                   <Typewriter
                   options={{
@@ -26,7 +27,7 @@ export default function Chat() {
                     })
                     .start();
                   }}
-                />}
+                />} */}
               </div>
             </div>
           })}
@@ -39,7 +40,8 @@ export default function Chat() {
         onKeyDown={e=>{
           if(e.key === 'Enter'){
             addMsg()
-            // setUsermsg("")
+            ask()
+            setUsermsg("")
           }
         }}
         />

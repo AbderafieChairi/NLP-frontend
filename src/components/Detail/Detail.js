@@ -1,34 +1,36 @@
 import React, { useRef, useState } from 'react';
 // import '../../App.css';
 import "./Detail.css"
-import { useIntent } from '../../contexts/IntentContext';
+import { useFlow } from '../../contexts/FlowContext';
+
 import Entity from '../Entity/Entity';
 import Editor from '../Editor/Editor';
-export default function Detail() {
+export default function Detail({id}) {
         const [name, setname] = useState("")
         const [messages, setmessages] = useState([])
         const [responses, setResponses] = useState([])
         const [entity, setEntity] = useState([]) 
         const [code, setCode] = useState("")
-        const {nodes,showdetail,updateNode,setShowdetail} = useIntent()
+        const {nodes,updateNode,showDetail} = useFlow()
       
         const save=()=>{
-          updateNode(showdetail.id,{name,messages,responses,entity,code})
-          setShowdetail({id:0,showdetail:0})
+          updateNode(id,{name,messages,responses,entity,code})
+          showDetail(id)
+          // setShowdetail({id:0,showdetail:0})
         }
         React.useEffect(()=>{
-          if(nodes.find(i=>i.id===showdetail.id).data.messages){
-            setname(nodes.find(i=>i.id===showdetail.id).data.name)
-            setmessages(nodes.find(i=>i.id===showdetail.id).data.messages)
-            setResponses(nodes.find(i=>i.id===showdetail.id).data.responses)
-            setEntity(nodes.find(i=>i.id===showdetail.id).data.entity)
-            setCode(nodes.find(i=>i.id===showdetail.id).data.code)
+          if(nodes.find(i=>i.id===id).data.messages){
+            setname(nodes.find(i=>i.id===id).data.name)
+            setmessages(nodes.find(i=>i.id===id).data.messages)
+            setResponses(nodes.find(i=>i.id===id).data.responses)
+            setEntity(nodes.find(i=>i.id===id).data.entity)
+            setCode(nodes.find(i=>i.id===id).data.code)
           }
         },[])
         return (
         <div className='intent-d'>
             <div className='detail-h'>
-              <h1>Node Detail</h1>
+              <h1>Node Detail {id}</h1>
               <button onClick={save}>save</button>
             </div>
             <h2 className='subtitle'>Intent Name 1</h2>
