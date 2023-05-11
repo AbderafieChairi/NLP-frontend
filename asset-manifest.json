@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.css": "/static/css/main.a233c94b.css",
-    "main.js": "/static/js/main.7b945c17.js",
-    "index.html": "/index.html",
-    "main.a233c94b.css.map": "/static/css/main.a233c94b.css.map",
-    "main.7b945c17.js.map": "/static/js/main.7b945c17.js.map"
+    "main.css": "/NLP-frontend/static/css/main.a233c94b.css",
+    "main.js": "/NLP-frontend/static/js/main.7b945c17.js",
+    "index.html": "/NLP-frontend/index.html",
+    "main.a233c94b.css.map": "/NLP-frontend/static/css/main.a233c94b.css.map",
+    "main.7b945c17.js.map": "/NLP-frontend/static/js/main.7b945c17.js.map"
   },
   "entrypoints": [
     "static/css/main.a233c94b.css",
