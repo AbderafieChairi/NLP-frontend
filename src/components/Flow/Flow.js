@@ -19,14 +19,14 @@ import RefNode from '../nodes/RefNode/RefNode';
 
 const nodeTypes = {
     intentNode:IntentNode,
-    refNode:RefNode  
-  };
+    refNode:RefNode 
+};
 
 
 
 
 function Flow() {
-  const {nodes, setNodes,edges, setEdges,showDetail, setShowdetail,setId,setShowSwitch,addNode} = useFlow();
+  const {nodes, setNodes,edges, setEdges,showDetail, setParserNodes,addNode} = useFlow();
   const [menu, setMenu] = useState(false)
   const [menuPos, setMenuPos] = useState({x:0,y:0})
   const [bankPos, setBankPos] = useState({x:0,y:0})
@@ -53,51 +53,20 @@ function Flow() {
   }, []);
   const addIntent=(position)=>{
     const id = addNode(position,'intentNode')
-    // var id = "0"
-    // setId(i=>{
-    //   id= `${i+1}`
-    //   setNodes(nodes=>[...nodes,{id:id,type:'intentNode',position:position,data:{displayName:id,id:id,start:false}}])
-    //   return id
-    // })
     return id
-  }
-
-  const addBank=(position)=>{
-    var id = '0'
-    setId(i=>{
-       id = `${i+1}`
-      setNodes(nodes=>[...nodes,{id:id,type:'bankIntent',position:position,data:{id}}])
-      return id
-    })
-    return id 
-  }
-  const addBankOut=(position)=>{
-    setId(i=>{
-      const id = `${i+1}`
-      setNodes(nodes=>[...nodes,{id:id,type:'bankIntentOut',position:position,data:{id}}])
-      return parseInt(id)
-    })
-
-  }
-  const addSwitch=(position)=>{
-    setId(i=>{
-      const id = `${i+1}`
-      setNodes(nodes=>[...nodes,{id:id,type:'switchNode',position:position,data:{id}}])
-      return parseInt(id)
-    })
-
   }
 
   const onConnectEnd = useCallback(
     (event) => {
       const targetIsPane = event.target.classList.contains('react-flow__pane');
-      if (targetIsPane && connectingNodeId.current.handleId==="b") {
+      if (targetIsPane) {
+
         const { top, left } = reactFlowWrapper.current.getBoundingClientRect();
         // setId(i=>{
           const id_ = addIntent( project({ x: event.clientX - left , y: event.clientY - top- 45 }) )
           setEdges((eds) => eds.concat({ 
             id: id_, 
-            sourceHandle: 'b',
+            sourceHandle: 'a',
             source: connectingNodeId.current.nodeId, 
             target: id_ ,
             targetHandle: 'a',
@@ -105,36 +74,6 @@ function Flow() {
           // return i+1
         // });
       }
-      if (targetIsPane && connectingNodeId.current.handleId==="c"){
-        const { top, left } = reactFlowWrapper.current.getBoundingClientRect();
-        setId(i=>{
-          const id_ = `${i+1}`
-          addBank( project({ x: event.clientX - left , y: event.clientY - top- 45 }),id_ )
-          setEdges((eds) => eds.concat({ 
-            id: id_, 
-            sourceHandle: 'c',
-            source: connectingNodeId.current.nodeId, 
-            target: id_ ,
-            targetHandle: 'e'
-          }));
-          return i+1
-        });
-      }
-      if (targetIsPane && connectingNodeId.current.handleId.at(0)==="s") {
-        const { top, left } = reactFlowWrapper.current.getBoundingClientRect();
-        setId(i=>{
-          const id_ = `${i+1}`
-          addIntent( project({ x: event.clientX - left , y: event.clientY - top- 45 }),id_ )
-          setEdges((eds) => eds.concat({ 
-            id: id_, 
-            sourceHandle: connectingNodeId.current.handleId,
-            source: connectingNodeId.current.nodeId, 
-            target: id_ ,
-            targetHandle: 'a',
-          }));
-          return i+1
-        });
-      } 
     },
     [project]
   );
@@ -180,6 +119,7 @@ function Flow() {
         onNodeContextMenu={(e,node)=>{
           e.preventDefault()
           setNodes(nodes=>nodes.filter(i=>i.id!==node.id))
+          setParserNodes(nodes=>nodes.filter(i=>i.id!==node.id))
           setEdges(edges=>edges.filter(i=>i.target!==node.id&&i.source!==node.id))
         }}
       >
@@ -188,9 +128,7 @@ function Flow() {
         {menu&&<FlowMenu 
           setMenu={setMenu} 
           menuPos={menuPos} 
-          addBankOut={addBankOut} 
           bankPos={bankPos}
-          addSwitch={addSwitch}
           addIntent={addIntent}
           />}
       </ReactFlow>
@@ -212,24 +150,16 @@ export default () => (
 
 
 function FlowMenu(props){
-  const addBankout=()=>{
+  const {addNode} = useFlow();
+  const addRef=()=>{
     props.setMenu(false)
-    props.addBankOut(props.bankPos)
+    addNode(props.bankPos,"refNode")
   }
-  const addSwitch=()=>{
-    props.setMenu(false)
-    props.addSwitch(props.bankPos)
-  }
-  const addIntent=()=>{
-    props.setMenu(false)
-    props.addIntent(props.bankPos)
-  }
-  
+
   return (
     <div className='flow-menu' style={{top:`${props.menuPos.y}px`,left:`${props.menuPos.x}px`}}>
-      <div onClick={addIntent}>add Intent</div>
-      <div onClick={addBankout}>add bank out</div>
-      <div onClick={addSwitch}>add Switch</div>
+      {/* <div onClick={()=>props.addIntent(props.bankPos)}>add Intent</div> */}
+      <div onClick={addRef}>add Reference</div>
     </div>
   )
 }

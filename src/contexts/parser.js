@@ -8,11 +8,12 @@ export class Parser{
     }
     parse(){
         Edge.parser = this;
+		Node_.parser=this;
         this.parseFlow(this.nodes[0].targetPoint[0].id);
     }
     async parseFlow(point_id,payload) {
 		const point = this.nodes.find(n=>n.targetPoint.map(i=>i.id).includes(point_id)).targetPoint[0];
-		point.msg.payload=payload
+		point.msg.payload={...point.msg.payload,...payload};
         const nextNodes = this.nextNodes(point_id);
         var out =[];
         for (const nextNode of nextNodes) {
@@ -26,12 +27,13 @@ export class Parser{
     nextNodes(point_id){
         const node= this.nodes.find(n=>n.targetPoint.map(i=>i.id).includes(point_id)) 
         return Edge.parser.edges
-			.filter(edge=>edge.source==node.id && point_id==edge.sourceHandle)
-			.map(edge=>this.nodes.find(n=>n.id==edge.target)) 
+			.filter(edge=>edge.source===node.id && point_id===edge.sourceHandle)
+			.map(edge=>this.nodes.find(n=>n.id===edge.target)) 
     }
 }
 
 export class Node_{
+    static parser;
 	id=''
 	sourcePoint=[]
 	targetPoint=[]

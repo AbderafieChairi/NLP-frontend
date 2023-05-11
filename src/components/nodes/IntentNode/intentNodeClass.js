@@ -1,3 +1,5 @@
+/*eslint no-eval: 0*/
+/* eslint eqeqeq: 0 */
 import { Node_,Point } from '../../../contexts/parser';
 export class IntentNode extends Node_{
 	static id_=1
@@ -16,6 +18,7 @@ export class IntentNode extends Node_{
 		this.messages=messages
 	}
 	async parse(point){
+		// console.log("entry point :",point)
 		const outJson={
 			intent:{
 				messages:this.messages,
@@ -34,13 +37,14 @@ export class IntentNode extends Node_{
 		if (json.entities==undefined){
 			return [];
 		}else if (Object.keys(json.entities).length>0){
-			console.log(json.entities)
 			for (let ent in json.entities){
 				response=response.replace('$'+ent,json.entities[ent][0])
 			}
 		}
-		eval(this.code)
 		const out = this.targetPoint[0]
+
+		out.msg.payload = {...out.msg.payload,entity:{...out.msg.payload.entity,...json.entities}}
+		eval(this.code)
 		out.msg.payload = {...out.msg.payload,response:response}
 		return [out]
 	}

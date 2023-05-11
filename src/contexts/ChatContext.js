@@ -21,13 +21,11 @@ export default function ChatProvider({ children }) {
  
 
     const ask=()=>{
-        console.log("user want to ask ")
         setLoading(true)
         parse(usermsg)
         .then(res=>{
             setLoading(false)
-            console.log(res)
-            if (res!=undefined){
+            if (res!==undefined){
                 setMsgs(msgs=>[...msgs,...res.toString().split('","').map(i=>({
                     src:'bot',
                     msg:i

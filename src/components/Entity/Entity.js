@@ -19,7 +19,6 @@ function Entity({entity,setEntity}) {
   const [regex, setRegex] = useState('')//this
   const [prebuild, setPrebuild] = useState('NOUN')//this
   const [required, setRequired] = useState(false)//this
-  const [output, setOutput] = useState([])//this
   const [saved, setSaved] = useState(false)
   const [value, setValue] = useState("")
   const onChange=(key,value)=>{
@@ -34,7 +33,6 @@ function Entity({entity,setEntity}) {
     setWordList(notNull(entity.wordList,["",""]))
     setRegex(notNull(entity.regex,''))
     setPrebuild(notNull(entity.prebuild,'NOUN'))
-    setOutput(notNull(entity.output,[]))
     setSaved(notNull(entity.saved,true))
     setRequired(notNull(entity.required,true))
     setValue(notNull(entity.value,''))
@@ -45,12 +43,9 @@ function Entity({entity,setEntity}) {
     if (pattern==='word-list')
     o=[{"LEMMA": {"IN": wordList.slice(0,-1)}}]
     else if (pattern==='regex')
-    // setOutput([{"TEXT": {"REGEX": regex}}])
     o=[{"TEXT": {"REGEX": regex}}]
     else if (pattern==='prebuild')
-    // setOutput([{"POS": prebuild}])
     o=[{"POS": prebuild}]
-    setOutput(o)
     setSaved(true)
     const out = {
       varName:varName,

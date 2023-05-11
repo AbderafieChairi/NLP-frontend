@@ -1,5 +1,7 @@
 import { Handle, Position } from 'reactflow';
 import "./IntentNode.css"
+import { useFlow } from '../../../contexts/FlowContext';
+import React from 'react';
 
 
 const startColor = {backgroundColor:'#c2410c'}
@@ -10,6 +12,11 @@ const nodeBorder = {borderColor:'#00d3f2'}
 
 
 export default function IntentNode({ data }) {
+  const {nodes,updateNode} = useFlow()
+  React.useEffect(()=>{
+        const node_data = nodes.filter(i=>i.id===data.id)[0].data
+        updateNode(data.id,node_data)
+  },[data.id,updateNode,nodes]) 
   return (
     <div style={{display:'block'}}>
       <div className='node'  style={data.start?startBorder:nodeBorder}>

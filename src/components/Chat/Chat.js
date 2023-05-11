@@ -1,6 +1,6 @@
 import React from 'react'
 import "./Chat.css"
-import Typewriter from 'typewriter-effect';
+// import Typewriter from 'typewriter-effect';
 import { useChat } from '../../contexts/ChatContext';
 export default function Chat() {
   const {usermsg, setUsermsg,ask,msgs,loading,addMsg,clearChat} = useChat()

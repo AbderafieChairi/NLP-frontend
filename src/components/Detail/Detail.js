@@ -1,10 +1,10 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 // import '../../App.css';
 import "./Detail.css"
 import { useFlow } from '../../contexts/FlowContext';
 
 import Entity from '../Entity/Entity';
-import Editor from '../Editor/Editor';
+// import Editor from '../Editor/Editor';
 export default function Detail({id}) {
         const [name, setname] = useState("")
         const [messages, setmessages] = useState([])
@@ -26,7 +26,7 @@ export default function Detail({id}) {
             setEntity(nodes.find(i=>i.id===id).data.entity)
             setCode(nodes.find(i=>i.id===id).data.code)
           }
-        },[])
+        },[id,nodes])
         return (
         <div className='intent-d'>
             <div className='detail-h'>
@@ -43,15 +43,15 @@ export default function Detail({id}) {
             <ListMessages value={responses} setValue={setResponses}/>    
             <h2 className='subtitle'>Entities</h2>
             <Entity entity={entity} setEntity={setEntity}/> 
-            <h2 className='subtitle'>Code</h2>
-            <div className='test'>
-            <Editor
-                language="javascript"
-                displayName="JS"
-                value={code}
-                onChange={setCode}
-              />
-            </div>
+            {/* <h2 className='subtitle'>Code</h2> */}
+            {/* <div className='test'>
+              <Editor
+                  language="javascript"
+                  displayName="JS"
+                  value={code}
+                  onChange={setCode}
+                /> 
+            </div> */}
 
         </div>
       );

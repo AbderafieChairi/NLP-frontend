@@ -2,13 +2,15 @@ import React, { useContext, useMemo, useState } from "react";
 import useLocalStorage from "./useLocalStorage";
 import { Parser,Edge,Node_,Point } from "./parser";
 import { IntentNode } from "../components/nodes/IntentNode/intentNodeClass";
+import { RefNode } from "../components/nodes/RefNode/RefNodeClass";
 const FlowContext = React.createContext({});
 
 
 
 const types={
     "intentNode":IntentNode,
-    "Node_":Node_
+    "Node_":Node_,
+    "refNode":RefNode
 }
 
 
@@ -18,7 +20,7 @@ export function useFlow() {
 }
 
 const initialNodes = [
-    { id: 'start', type: 'intentNode', position: { x: 200, y: 300 }, data: { name: "starting-point",id: 'node-1',start:true} },
+    { id: 'start', type: 'intentNode', position: { x: 200, y: 300 }, data: { name: "starting-point",id: 'start',start:true} },
 ];
 const initialParserNode =[
     {
@@ -26,7 +28,7 @@ const initialParserNode =[
         node:new Node_("start",[],[new Point({payload:null},'a')])
     }
 ]
-const initialPoint=initialParserNode.find(n=>n.node.id=='start').node.targetPoint[0].id;
+const initialPoint=initialParserNode.find(n=>n.node.id==='start').node.targetPoint[0].id;
 const initialEdges = [
 
 ];
@@ -48,16 +50,33 @@ export default function FlowProvider({ children }) {
             return new Parser(parserNodes.map(i=>i.node),edges_)
     }, [parserNodes,edges.length])
 
-    React.useEffect(()=>{
+    const initParserNode=()=>{
         setParserNodes(ps=>ps.map(pn=>({
             type:pn.type,
-            node:Object.assign(new types[pn.type], pn.node)
+            node:Object.assign(new types[pn.type](), pn.node)
             // node : Object.setPrototypeOf(pn.node, types[pn.type].prototype)
         }))
-        
         )
-    },[])
-    React.useEffect(()=>console.log(currentPoint),[currentPoint])
+    }
+    React.useEffect(()=>{
+        initParserNode()
+    })
+
+    React.useEffect(()=>{
+        const node_id = parserNodes.find(pn=>pn.node.targetPoint[0].id===currentPoint).node.id
+        setEdges(edges=>edges.map(edge=>edge.source===node_id?{...edge,animated:true}:{...edge,animated:false}))
+        console.log(currentPoint)
+
+    },[currentPoint])
+
+    const importJson=(json)=>{
+        setNodes(json.nodes)
+        setEdges(json.edges)
+        setParserNodes(json.parserNodes)
+        initParserNode()
+    }
+
+
     const addNode=(position,type)=>{
         const out_ = types[type].create(position)
         setParserNodes(parserNodes=>[...parserNodes,{type:type,node:out_.parsernode}])
@@ -71,7 +90,7 @@ export default function FlowProvider({ children }) {
     }
 
     const initFlowParse=()=>{
-        setParserNodes(initialParserNode)
+        setCurrentPoint(initialPoint)
     }
     const showDetail =(node_id)=>{
         const show = nodes.find(i=>i.id===node_id).data.detail
@@ -82,25 +101,23 @@ export default function FlowProvider({ children }) {
     }
 
     const updateNode=(nodeId,data)=>{
-        console.log("update node id");
         const d = nodes.map(node=>node.id===nodeId?{...node,['data']:{...node.data,...data}}:node)
-        parserNodes.find(pn=>pn.node.id===nodeId).node?.update(data)
+        setParserNodes(parserNodes=>{
+            parserNodes.find(pn=>pn.node.id===nodeId).node?.update(data)
+            return parserNodes
+        })
         setNodes(d)
     }
     const  parse=async (user_msg)=>{
-        // console.log(parserNodes)
-        // console.log(parser.edges)
         Edge.parser=parser
-
+        Node_.parser=parser
         const res = await parser.parseFlow(currentPoint,{user_msg})
         if (res.msg===undefined){
             return "sorry I dont recognize what do you want to say !"
         }
-        console.log(res.msg.payload.response)
         setCurrentPoint(res.id)
         return res.msg.payload.response
     }
-    // React.useEffect(()=>console.log(currentPoint),[currentPoint])
 
 
     const values={
@@ -114,7 +131,9 @@ export default function FlowProvider({ children }) {
         parse,
         showDetail,
         initFlowParse,
-        parserNodes
+        parserNodes,
+        setParserNodes,
+        importJson
     }
     return (
     <FlowContext.Provider value={values}>{children}</FlowContext.Provider>
