@@ -1,6 +1,7 @@
 {
   "name": "front-end",
   "version": "0.1.0",
+  "homepage": "https://abderafiechairi.github.io/NLP-frontend",
   "private": true,
   "dependencies": {
     "@google-cloud/dialogflow": "^5.7.1",
