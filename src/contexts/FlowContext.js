@@ -48,7 +48,7 @@ export default function FlowProvider({ children }) {
             return new Edge(edge.id,sourceNode.targetPoint[0].id,targetNode.sourcePoint[0].id,edge.source,edge.target)
         })
             return new Parser(parserNodes.map(i=>i.node),edges_)
-    }, [parserNodes,edges.length])
+    })
 
     const initParserNode=()=>{
         setParserNodes(ps=>ps.map(pn=>({
@@ -67,7 +67,7 @@ export default function FlowProvider({ children }) {
         setEdges(edges=>edges.map(edge=>edge.source===node_id?{...edge,animated:true}:{...edge,animated:false}))
         console.log(currentPoint)
 
-    },[currentPoint])
+    },[currentPoint,parserNodes,setEdges])
 
     const importJson=(json)=>{
         setNodes(json.nodes)
@@ -101,7 +101,10 @@ export default function FlowProvider({ children }) {
     }
 
     const updateNode=(nodeId,data)=>{
-        const d = nodes.map(node=>node.id===nodeId?{...node,['data']:{...node.data,...data}}:node)
+        const d = nodes.map(node=>{
+            if (node.id===nodeId) node.data = {...node.data,...data}
+            return node
+        })
         setParserNodes(parserNodes=>{
             parserNodes.find(pn=>pn.node.id===nodeId).node?.update(data)
             return parserNodes

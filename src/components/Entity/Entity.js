@@ -80,7 +80,7 @@ function Entity({entity,setEntity}) {
 
 
   return (
-    saved==false?<div>
+    saved===false?<div>
       {/* <input value={inp} onChange={(e) => setInp(e.target.value)} /> */}
       <div className='pattern-list'>
         <div className='pattern-item'>
@@ -113,7 +113,7 @@ function Entity({entity,setEntity}) {
                 //backspace
                 if(e.key==='Backspace'){
                   if(index!==wordList.length-1){
-                    if (item==""){
+                    if (item===""){
                       setWordList(wordList.filter((item,k)=>k!==index))
                     }
                   }
