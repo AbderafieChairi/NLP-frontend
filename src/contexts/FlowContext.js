@@ -48,7 +48,7 @@ export default function FlowProvider({ children }) {
             return new Edge(edge.id,sourceNode.targetPoint[0].id,targetNode.sourcePoint[0].id,edge.source,edge.target)
         })
             return new Parser(parserNodes.map(i=>i.node),edges_)
-    })
+    },[edges,parserNodes])
 
     const initParserNode=()=>{
         setParserNodes(ps=>ps.map(pn=>({
